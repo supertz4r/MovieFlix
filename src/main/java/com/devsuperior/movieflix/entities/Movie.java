@@ -1,6 +1,8 @@
 package com.devsuperior.movieflix.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,7 +24,7 @@ public class Movie implements Serializable {
 	private Long id;
 	private String title;
 	private String subTitle;
-	private Long year;
+	private Integer year;
 	private String imgUrl;
 	private String synopsis;
 	
@@ -29,9 +32,12 @@ public class Movie implements Serializable {
 	@JoinColumn(name = "genre_id")
 	private Genre genre;
 	
+	@OneToMany(mappedBy = "movie")
+	private List<Review> reviews = new ArrayList<>(); 
+
 	public Movie(){}
 
-	public Movie(Long id, String title, String subTitle, Long year, String imgUrl, String synopsis, Genre genre) {
+	public Movie(Long id, String title, String subTitle, Integer year, String imgUrl, String synopsis, Genre genre) {
 		this.id = id;
 		this.title = title;
 		this.subTitle = subTitle;
@@ -65,11 +71,11 @@ public class Movie implements Serializable {
 		this.subTitle = subTitle;
 	}
 
-	public Long getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
-	public void setYear(Long year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
@@ -95,6 +101,10 @@ public class Movie implements Serializable {
 
 	public void setGenre(Genre genre) {
 		this.genre = genre;
+	}
+	
+	public List<Review> getReviews() {
+		return reviews;
 	}
 
 	@Override
